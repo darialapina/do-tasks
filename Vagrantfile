@@ -2,10 +2,14 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  (1..2).each do |i|
-    config.vm.define "machine-#{i}" do |machine|
-      machine.vm.box = "ubuntu/bionic64"
-      machine.vm.network "private_network", type: "dhcp"
-    end
+  create_machine(config, 1)
+  create_machine(config, 2)
+end
+
+def create_machine(config, number)
+  config.vm.define "machine-#{number}" do |machine|
+    machine.vm.box = "ubuntu/bionic64"
+
+    machine.vm.network "private_network", ip: "192.168.50.#{number}"
   end
 end
